@@ -270,8 +270,6 @@ function buildSummary() {
 
 // ---- Download card as PNG ----
 async function downloadCard() {
-  const card = $('#downloadable-card');
-
   // Use html2canvas-like approach via canvas — but since we can't use external libs,
   // we'll use a DOM-to-SVG-to-canvas technique or fallback to a styled canvas.
   // Since we promised no external libs, we'll draw it manually on a canvas.
@@ -362,7 +360,7 @@ async function downloadCard() {
     ctx.textAlign = 'center';
     ctx.font = 'bold 16px Georgia, serif';
     ctx.fillStyle = '#e87db0';
-    ctx.fillText('Be ready baby doll, I will pick you up 🚗💖', w / 2, h - 50);
+    ctx.fillText('Be ready baby doll, I\'m on my way 💖', w / 2, h - 50);
 
     ctx.font = '13px Georgia, serif';
     ctx.fillStyle = '#b08090';
@@ -410,22 +408,10 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
   if (line) ctx.fillText(line, x, lineY);
 }
 
-// ---- Build road scene hearts ----
-function buildRoadHearts() {
-  const container = $('.road-hearts');
-  if (!container) return;
-  for (let i = 0; i < 20; i++) {
-    const span = document.createElement('span');
-    span.textContent = i % 3 === 0 ? '🌸' : '💖';
-    container.appendChild(span);
-  }
-}
-
 // ---- Init ----
 document.addEventListener('DOMContentLoaded', () => {
   spawnFloatingHearts();
   initNoButton();
-  buildRoadHearts();
 
   // Step 1 → 2
   $('#btn-start').addEventListener('click', () => goToStep(2));
