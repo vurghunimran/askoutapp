@@ -20,13 +20,7 @@
     No 😭
   </button>
   <!-- Hint text shown near wherever the No button was last -->
-  <div id="no-hint" role="status" aria-live="polite" style="
-    position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
-    z-index:9997; font-size:0.85rem; color:#b08090;
-    background:rgba(255,255,255,0.85); padding:6px 16px;
-    border-radius:50px; box-shadow:0 2px 12px rgba(220,130,170,0.18);
-    pointer-events:none; opacity:0; transition:opacity 0.4s;
-  "></div>
+  <div id="no-hint" role="status" aria-live="polite" aria-atomic="true"></div>
 
   <!-- Progress dots -->
   <nav class="progress-dots" aria-label="Steps progress" style="position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:100;">
@@ -46,11 +40,11 @@
     <section id="step-welcome" class="step active" aria-label="Welcome">
       <div class="card">
 
-        <!-- Cat image — place cute-cat-welcome.png in /assets/ -->
+        <!-- Cat image -->
         <img
           id="cat-welcome-img"
-          src="./assets/cute-cat-welcome.png"
-          alt="Cute cat waiting curiously"
+          src="./assets/assets:cat-rose.gif.gif"
+          alt="Cute cat holding a rose"
           onerror="this.style.display='none'; document.getElementById('cat-fallback').style.display='flex';"
         />
         <!-- Fallback emoji cat if image is missing -->
@@ -82,11 +76,6 @@
           </button>
           <!-- btn-no is fixed-positioned in the DOM above, outside the card -->
         </div>
-
-        <!-- Space so layout doesn't feel empty where No "was" -->
-        <p style="font-size:0.78rem;color:#d4b0c0;margin-top:20px;">
-          (There is definitely a No button somewhere on this page 🙈)
-        </p>
       </div>
     </section>
 
@@ -101,9 +90,21 @@
         <p class="step-sub">Pick as many as you like 💕</p>
 
         <div id="activity-grid" class="options-grid" role="group" aria-label="Activity options">
-          <button class="option-card" data-value="Coffee date ☕" aria-pressed="false">
-            <span class="opt-emoji" aria-hidden="true">☕</span>
-            <span class="opt-label">Coffee date</span>
+          <button class="option-card" data-value="Karting 🏎️" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🏎️</span>
+            <span class="opt-label">Karting</span>
+          </button>
+          <button class="option-card" data-value="Bowling 🎳" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🎳</span>
+            <span class="opt-label">Bowling</span>
+          </button>
+          <button class="option-card" data-value="Chilling 🛋️" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🛋️</span>
+            <span class="opt-label">Chilling</span>
+          </button>
+          <button class="option-card" data-value="Horse riding 🐎" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🐎</span>
+            <span class="opt-label">Horse riding</span>
           </button>
           <button class="option-card" data-value="Dinner date 🍽️" aria-pressed="false">
             <span class="opt-emoji" aria-hidden="true">🍽️</span>
@@ -357,18 +358,6 @@
   </main><!-- /app -->
 
   <script src="./script.js"></script>
-
-  <!-- Show No hint when it moves -->
-  <script>
-    // Make no-hint visible briefly after each move
-    const noHintEl = document.getElementById('no-hint');
-    const observer = new MutationObserver(() => {
-      noHintEl.style.opacity = '1';
-      clearTimeout(noHintEl._timer);
-      noHintEl._timer = setTimeout(() => { noHintEl.style.opacity = '0'; }, 2000);
-    });
-    observer.observe(noHintEl, { characterData: true, childList: true, subtree: true });
-  </script>
 
 </body>
 </html>

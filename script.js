@@ -34,7 +34,11 @@ function goToStep(n) {
   const noBtn = $('#btn-no');
   if (noBtn) noBtn.style.display = (n === 2) ? 'inline-flex' : 'none';
   const hint = $('#no-hint');
-  if (hint && n !== 2) { hint.textContent = ''; hint.style.opacity = '0'; }
+  if (hint && n !== 2) {
+    hint.classList.remove('visible');
+    hint.replaceChildren();
+    clearTimeout(hint._timer);
+  }
 }
 
 function stepId(n) {
@@ -73,25 +77,46 @@ function spawnFloatingHearts() {
 }
 
 // ---- No button logic ----
-const noHints = [
-  'No is not available today 😌',
-  'Wrong button, try again 😇',
-  'Nice try! 😭',
-  'That button is broken 🙈',
-  'Nope, keep looking 😜',
-  'Error 404: No not found 💅',
-  'This button doesn\'t exist 🫣',
-  'Impossible! 🚫',
+const noReactions = [
+  {
+    src: './assets/assets:no-click-1.gif.jpeg',
+    alt: 'Cat staring at a laptop while you try to click no',
+  },
+  {
+    src: './assets/assets:no-click-2.jpg.jpeg',
+    alt: 'Cat dramatically missing you a lot',
+  },
+  {
+    src: './assets/assets:no-click-3.jpg.jpg',
+    alt: 'Tiny sad kitten reaction',
+  },
+  {
+    src: './assets/assets:no-click-4.jpg.jpg',
+    alt: 'Crying kitten reaction',
+  },
 ];
 let hintIndex = 0;
 
+function showNoReaction() {
+  const hint = $('#no-hint');
+  if (!hint) return;
+
+  const reaction = noReactions[hintIndex % noReactions.length];
+  const img = document.createElement('img');
+  img.className = 'no-reaction-img';
+  img.src = reaction.src;
+  img.alt = reaction.alt;
+
+  hint.replaceChildren(img);
+  hint.classList.add('visible');
+  clearTimeout(hint._timer);
+  hint._timer = setTimeout(() => hint.classList.remove('visible'), 2000);
+  hintIndex++;
+}
+
 function moveNoButton() {
   const btn = $('#btn-no');
-  const hint = $('#no-hint');
-
-  // Show a cycling hint
-  hint.textContent = noHints[hintIndex % noHints.length];
-  hintIndex++;
+  showNoReaction();
 
   // Bounce animation reset
   btn.classList.remove('bounce');
