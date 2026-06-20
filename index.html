@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Very Important Question 💖</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <meta name="description" content="A cute romantic date invitation" />
+</head>
+<body>
+
+  <!-- Floating hearts background -->
+  <div id="hearts-bg" aria-hidden="true"></div>
+
+  <!-- Celebration overlay -->
+  <div id="celebration" aria-hidden="true"></div>
+
+  <!-- Floating No button (positioned by JS, lives outside steps) -->
+  <button id="btn-no" class="btn btn-no" aria-label="No button — good luck clicking me">
+    No 😭
+  </button>
+  <!-- Hint text shown near wherever the No button was last -->
+  <div id="no-hint" role="status" aria-live="polite" style="
+    position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+    z-index:9997; font-size:0.85rem; color:#b08090;
+    background:rgba(255,255,255,0.85); padding:6px 16px;
+    border-radius:50px; box-shadow:0 2px 12px rgba(220,130,170,0.18);
+    pointer-events:none; opacity:0; transition:opacity 0.4s;
+  "></div>
+
+  <!-- Progress dots -->
+  <nav class="progress-dots" aria-label="Steps progress" style="position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:100;">
+    <span class="dot active" aria-label="Step 1"></span>
+    <span class="dot"        aria-label="Step 2"></span>
+    <span class="dot"        aria-label="Step 3"></span>
+    <span class="dot"        aria-label="Step 4"></span>
+    <span class="dot"        aria-label="Step 5"></span>
+    <span class="dot"        aria-label="Step 6"></span>
+  </nav>
+
+  <main id="app">
+
+    <!-- ============================
+         STEP 1 — Welcome
+         ============================ -->
+    <section id="step-welcome" class="step active" aria-label="Welcome">
+      <div class="card">
+
+        <!-- Cat image — place cute-cat-welcome.png in /assets/ -->
+        <img
+          id="cat-welcome-img"
+          src="./assets/cute-cat-welcome.png"
+          alt="Cute cat waiting curiously"
+          onerror="this.style.display='none'; document.getElementById('cat-fallback').style.display='flex';"
+        />
+        <!-- Fallback emoji cat if image is missing -->
+        <div id="cat-fallback" class="cat-placeholder" style="display:none;" aria-hidden="true">🐱</div>
+
+        <h1 class="step-title">Hi beautiful ❤️</h1>
+        <div class="divider"></div>
+        <p class="step-sub">I have a very important<br>question for you…</p>
+
+        <button id="btn-start" class="btn btn-primary" aria-label="Start the question">
+          Start ✨
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================
+         STEP 2 — The Question
+         ============================ -->
+    <section id="step-question" class="step" aria-label="Main question">
+      <div class="card">
+        <span class="step-emoji" aria-hidden="true">💌</span>
+        <h2 class="step-title">Will you go out with me?</h2>
+        <div class="divider"></div>
+        <p class="step-sub">Think very carefully… 😇</p>
+
+        <div class="question-area yes-no-btns">
+          <button id="btn-yes" class="btn btn-yes" aria-label="Yes, I will go out with you">
+            Yes 💖
+          </button>
+          <!-- btn-no is fixed-positioned in the DOM above, outside the card -->
+        </div>
+
+        <!-- Space so layout doesn't feel empty where No "was" -->
+        <p style="font-size:0.78rem;color:#d4b0c0;margin-top:20px;">
+          (There is definitely a No button somewhere on this page 🙈)
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================
+         STEP 3 — Activity
+         ============================ -->
+    <section id="step-activity" class="step" aria-label="Choose activities">
+      <div class="card">
+        <span class="step-emoji" aria-hidden="true">🌸</span>
+        <h2 class="step-title">What do you want to do?</h2>
+        <div class="divider"></div>
+        <p class="step-sub">Pick as many as you like 💕</p>
+
+        <div id="activity-grid" class="options-grid" role="group" aria-label="Activity options">
+          <button class="option-card" data-value="Coffee date ☕" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">☕</span>
+            <span class="opt-label">Coffee date</span>
+          </button>
+          <button class="option-card" data-value="Dinner date 🍽️" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🍽️</span>
+            <span class="opt-label">Dinner date</span>
+          </button>
+          <button class="option-card" data-value="Movie night 🎬" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🎬</span>
+            <span class="opt-label">Movie night</span>
+          </button>
+          <button class="option-card" data-value="Walk by the sea 🌊" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🌊</span>
+            <span class="opt-label">Walk by the sea</span>
+          </button>
+          <button class="option-card" data-value="Concert 🎵" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🎵</span>
+            <span class="opt-label">Concert</span>
+          </button>
+          <button class="option-card" data-value="Picnic 🌸" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🌸</span>
+            <span class="opt-label">Picnic</span>
+          </button>
+          <button class="option-card" data-value="Surprise me ✨" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">✨</span>
+            <span class="opt-label">Surprise me</span>
+          </button>
+        </div>
+
+        <button id="btn-activity-next" class="btn btn-primary btn-next" disabled aria-label="Continue to food selection">
+          Next 💕
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================
+         STEP 4 — Food
+         ============================ -->
+    <section id="step-food" class="step" aria-label="Choose food">
+      <div class="card">
+        <span class="step-emoji" aria-hidden="true">🍽️</span>
+        <h2 class="step-title">What do you want to eat?</h2>
+        <div class="divider"></div>
+        <p class="step-sub">Pick your favourites 😋</p>
+
+        <div id="food-grid" class="options-grid" role="group" aria-label="Food options">
+          <button class="option-card" data-value="Pizza 🍕" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🍕</span>
+            <span class="opt-label">Pizza</span>
+          </button>
+          <button class="option-card" data-value="Sushi 🍣" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🍣</span>
+            <span class="opt-label">Sushi</span>
+          </button>
+          <button class="option-card" data-value="Pasta 🍝" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🍝</span>
+            <span class="opt-label">Pasta</span>
+          </button>
+          <button class="option-card" data-value="Burger 🍔" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🍔</span>
+            <span class="opt-label">Burger</span>
+          </button>
+          <button class="option-card" data-value="Chicken 🍗" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🍗</span>
+            <span class="opt-label">Chicken</span>
+          </button>
+          <button class="option-card" data-value="Greek food 🐟" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🐟</span>
+            <span class="opt-label">Greek food</span>
+          </button>
+          <button class="option-card" data-value="Ice cream 🍦" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🍦</span>
+            <span class="opt-label">Ice cream</span>
+          </button>
+          <button class="option-card" data-value="Azerbaijani food 🥘" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🥘</span>
+            <span class="opt-label">Azerbaijani</span>
+          </button>
+          <button class="option-card" data-value="Georgian food 🥟" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">🥟</span>
+            <span class="opt-label">Georgian</span>
+          </button>
+          <button class="option-card" data-value="Surprise me ✨" aria-pressed="false">
+            <span class="opt-emoji" aria-hidden="true">✨</span>
+            <span class="opt-label">Surprise me</span>
+          </button>
+        </div>
+
+        <button id="btn-food-next" class="btn btn-primary btn-next" disabled aria-label="Continue to date and time selection">
+          Choose date &amp; time 💌
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================
+         STEP 5 — Date & Time
+         ============================ -->
+    <section id="step-datetime" class="step" aria-label="Choose date and time">
+      <div class="card">
+        <span class="step-emoji" aria-hidden="true">📅</span>
+        <h2 class="step-title">When should I pick you up?</h2>
+        <div class="divider"></div>
+
+        <div class="datetime-wrapper">
+          <div>
+            <label class="date-label" for="date-input">📆 Choose a date</label>
+            <input
+              type="date"
+              id="date-input"
+              aria-label="Select date"
+              aria-required="true"
+            />
+          </div>
+
+          <div>
+            <label class="date-label">🕐 Choose a time</label>
+            <div class="time-grid" role="group" aria-label="Time options">
+              <button class="time-btn" data-time="12:00" aria-pressed="false">12:00</button>
+              <button class="time-btn" data-time="13:00" aria-pressed="false">13:00</button>
+              <button class="time-btn" data-time="14:00" aria-pressed="false">14:00</button>
+              <button class="time-btn" data-time="15:00" aria-pressed="false">15:00</button>
+              <button class="time-btn" data-time="16:00" aria-pressed="false">16:00</button>
+              <button class="time-btn" data-time="17:00" aria-pressed="false">17:00</button>
+              <button class="time-btn" data-time="18:00" aria-pressed="false">18:00</button>
+              <button class="time-btn" data-time="19:00" aria-pressed="false">19:00</button>
+              <button class="time-btn" data-time="20:00" aria-pressed="false">20:00</button>
+              <button class="time-btn" data-time="21:00" aria-pressed="false">21:00</button>
+              <button class="time-btn" data-time="22:00" aria-pressed="false">22:00</button>
+              <button class="time-btn" data-time="23:00" aria-pressed="false">23:00</button>
+            </div>
+          </div>
+        </div>
+
+        <button id="btn-confirm-date" class="btn btn-primary" disabled aria-label="Confirm date and time">
+          Confirm our date 💘
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================
+         STEP 6 — Final
+         ============================ -->
+    <section id="step-final" class="step" aria-label="Date confirmed">
+      <div class="card">
+
+        <!-- Our photo + road scene -->
+        <div class="final-top">
+          <div class="our-pic-frame" aria-label="Photo of us">
+            <img
+              src="./assets/our-picture.jpg"
+              alt="Our picture together"
+              onerror="this.parentElement.innerHTML='<span style=\'font-size:4rem;display:flex;align-items:center;justify-content:center;height:100%;\'>💑</span>'"
+            />
+          </div>
+
+          <div style="flex:1; text-align:left; padding:4px 0 0 0;">
+            <p class="final-message">Be ready baby doll,<br>I will pick you up. 🚗💖</p>
+            <p class="final-sub">I can't wait to see you ❤️</p>
+          </div>
+        </div>
+
+        <!-- Cat driving car — road scene -->
+        <div class="road-scene" aria-label="Animated road with cat driving to pick you up" role="img">
+          <!-- Sky clouds -->
+          <span class="cloud" style="left:10%;" aria-hidden="true">☁️</span>
+          <span class="cloud" style="left:55%;" aria-hidden="true">⛅</span>
+
+          <!-- Road -->
+          <div class="road-strip" aria-hidden="true"></div>
+
+          <!-- Dashed center line -->
+          <div class="road-dashes" aria-hidden="true">
+            <!-- JS will animate; static dashes below -->
+            <div class="road-dash"></div><div class="road-dash"></div>
+            <div class="road-dash"></div><div class="road-dash"></div>
+            <div class="road-dash"></div><div class="road-dash"></div>
+            <div class="road-dash"></div><div class="road-dash"></div>
+            <div class="road-dash"></div><div class="road-dash"></div>
+            <div class="road-dash"></div><div class="road-dash"></div>
+            <div class="road-dash"></div><div class="road-dash"></div>
+            <div class="road-dash"></div><div class="road-dash"></div>
+          </div>
+
+          <!-- Hearts along road -->
+          <div class="road-hearts" aria-hidden="true"></div>
+
+          <!-- Cat in car -->
+          <div class="road-car" aria-hidden="true">
+            <img
+              src="./assets/cat-sunglasses-car.png"
+              alt="Cat in sunglasses driving a car"
+              style="height:52px; width:auto;"
+              onerror="this.outerHTML='<span style=\'font-size:2.2rem;\'>🐱🚗</span>'"
+            />
+          </div>
+        </div>
+
+        <!-- Summary card -->
+        <div class="summary-card" aria-label="Our date plan summary">
+          <h3>Our date plan 💕</h3>
+          <div class="summary-row">
+            <span class="s-label">🎉 Activity:</span>
+            <span class="s-val" id="summary-activities">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="s-label">🍽️ Food:</span>
+            <span class="s-val" id="summary-foods">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="s-label">📅 Date:</span>
+            <span class="s-val" id="summary-date">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="s-label">🕐 Time:</span>
+            <span class="s-val" id="summary-time">—</span>
+          </div>
+        </div>
+
+        <!-- Downloadable card -->
+        <div class="download-card" aria-label="Download our date plan as an image">
+          <h3>Save our date plan 💾</h3>
+
+          <div id="downloadable-card" aria-hidden="true">
+            <img
+              class="dc-pic"
+              src="./assets/our-picture.jpg"
+              alt="Our picture"
+              onerror="this.style.display='none'"
+            />
+            <div class="dc-title">Our Date Plan 💖</div>
+            <div class="divider"></div>
+            <div class="dc-row">✨ Activities: <span id="dc-activities">—</span></div>
+            <div class="dc-row">🍽️ Food: <span id="dc-foods">—</span></div>
+            <div class="dc-row">📅 Date: <span id="dc-date">—</span></div>
+            <div class="dc-row">🕐 Time: <span id="dc-time">—</span></div>
+            <div class="divider" style="margin-top:14px;"></div>
+            <div style="font-size:0.82rem;color:#e87db0;margin-top:10px;font-weight:700;">
+              Be ready baby doll, I will pick you up 🚗💖
+            </div>
+            <div style="font-size:0.75rem;color:#b08090;margin-top:4px;">
+              I can't wait to see you ❤️
+            </div>
+          </div>
+
+          <button id="btn-download" class="btn btn-primary" aria-label="Download our date plan as a PNG image">
+            Download as image 📸
+          </button>
+        </div>
+
+      </div><!-- /card -->
+    </section>
+
+  </main><!-- /app -->
+
+  <script src="./script.js"></script>
+
+  <!-- Show No hint when it moves -->
+  <script>
+    // Make no-hint visible briefly after each move
+    const noHintEl = document.getElementById('no-hint');
+    const observer = new MutationObserver(() => {
+      noHintEl.style.opacity = '1';
+      clearTimeout(noHintEl._timer);
+      noHintEl._timer = setTimeout(() => { noHintEl.style.opacity = '0'; }, 2000);
+    });
+    observer.observe(noHintEl, { characterData: true, childList: true, subtree: true });
+  </script>
+
+</body>
+</html>
