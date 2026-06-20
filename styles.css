@@ -96,6 +96,17 @@ body {
 
 /* ---- Typography ---- */
 .step-emoji { font-size: 3.5rem; margin-bottom: 12px; display: block; line-height: 1; }
+#question-cat-img {
+  display: block;
+  width: clamp(180px, 36vw, 220px);
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 18px;
+  border-radius: 18px;
+  border: 4px solid var(--pink);
+  box-shadow: 0 8px 26px var(--shadow);
+  object-fit: contain;
+}
 .step-title {
   font-size: 1.9rem;
   font-weight: 700;
