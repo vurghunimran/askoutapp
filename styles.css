@@ -397,21 +397,6 @@ input[type="date"]:focus { border-color: var(--pink-dark); box-shadow: 0 0 0 3px
   object-fit: cover;
 }
 
-.ending-photo-card {
-  margin: 20px 0;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  border: 4px solid var(--pink);
-  box-shadow: 0 10px 28px var(--shadow);
-  background: #fff;
-}
-
-.ending-photo-card img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
 /* ---- Summary card ---- */
 .summary-card {
   background: var(--pink-light);
